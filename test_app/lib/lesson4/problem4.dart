@@ -16,9 +16,8 @@ class MyApp extends StatelessWidget{
       ),
     );
   }
-}
-Widget build(BuildContext context){
-  List<String> skills = ['Flutter', 'Dart', 'Python', 'Django Framework'];
+  Widget build(BuildContext context){
+  List<String> skills = ['Flutter', 'Dart', 'Python', 'Django Framework', 'Api', 'AI'];
   return MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Problem 5',
@@ -48,11 +47,81 @@ Widget build(BuildContext context){
                   ),
                 ],
               ),
-              
+              const SizedBox(height: 30),
+              const  Text('Statics', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 20),
+              Row(
+                children:[
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(12)),
+                      child: const Column(
+                      children:[
+                        Text( ' 12', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+                        Text('Lesson'),
+                      ],
+                    ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: Container(
+                      padding:const EdgeInsets.all(16),
+                      decoration: BoxDecoration(border: Border.all(), borderRadius:BorderRadius.circular(12) ),
+                      child: const Column(
+                        children: [
+                          Text(
+                            '4', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                          ),
+                          Text('Project'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const Text('skills', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 20),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  buildSkillBox(skills[0]),
+                  buildSkillBox(skills[1]),
+                  buildSkillBox(skills[2]),
+                  buildSkillBox(skills[3]),
+                  buildSkillBox(skills[4]),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: (){
+                        print('Follow pressed');
+                      },
+                      child: const Text('Follow'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: (){
+                        print('Message pressed');
+                      },
+                      child: const Text('Mesasge'),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     ),
   );
+}
 }
