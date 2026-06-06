@@ -6,7 +6,7 @@ void main(){
 class MyApp extends StatelessWidget{
     const MyApp({super.key});
     Widget build(BuildContext context){
-        List<String> skills = ['Flutter', 'Dart', 'Python'];
+        List<String> skills = ['Flutter', 'Dart', 'Python', 'Django Framework'];
         return MaterialApp(
             debugShowCheckedModeBanner:false,
             title: 'Problem 3',
@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget{
                             Text('1. ${skills[0]}', style: const TextStyle(fontSize: 19 )),
                             Text('2. ${skills[1]}', style: const TextStyle(fontSize: 19 )),
                             Text('3. ${skills[2]}', style: const TextStyle(fontSize:19 )),
+                            Text('4. ${skills[3]}', style: const TextStyle(fontSize: 19)),
                             const SizedBox(height: 20),
                             Center(
                                 child: ElevatedButton(
@@ -71,6 +72,16 @@ class MyApp extends StatelessWidget{
                                         print('Profile pressed');
                                     },
                                     child: const Text('Open Profile'),
+                                ),
+                            ),
+                            const SizedBox(height: 20),
+                            Center(
+                                child: ElevatedButton(
+                                    onPressed: (){
+                                        print('Contact me');
+
+                                    },
+                                    child: const Text('Contact me'),
                                 ),
                             ),
                             
