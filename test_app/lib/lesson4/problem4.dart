@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget{
     debugShowCheckedModeBanner: false,
     title: 'Problem 5',
     home: Scaffold(
-      appBar: AppBar(title: const Text('Flutter Layout Problem 5')),
+      appBar: AppBar(title: const Text('Flutter Layout Problem 4')),
       body:SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
