@@ -65,9 +65,31 @@ class _InputPageState extends State<InputPage>{
                 labelText: 'Age',
                 hintText: 'Enter your age', 
                 border: OutlineInputBorder(),
-                prefixIcon: Incon
+                prefixIcon: Icon(Icons.numbers),
               ),
             ),
+            const SizedBox(height: 20,),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(onPressed: showData, child: const Text('Show'))
+                ),
+                const SizedBox(height: 20,),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: clearData,
+                    child: const Text('Clear'),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text(
+                  result,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
+                ),
           ],
         ),
       ),
