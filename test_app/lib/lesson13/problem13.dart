@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget{
 }
 class MainPage extends StatefulWidget{
   const MainPage({super.key});
-  State<MainPage> creatState(){
+  State<MainPage> createState(){
     return _MainPageState();
   }
 }
