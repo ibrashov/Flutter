@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'screens/post_page.dart';
-void main(){
-  runApp(const ServicePracticeApp);
+
+import 'screens/posts_page.dart';
+
+void main() {
+  runApp(const ServicePracticeApp());
 }
-class ServicePracriceApp extends StatelessWidget{
-  const ServicePracriceApp({super.key});
-  Widget build(BuildContext context){
+
+class ServicePracticeApp extends StatelessWidget {
+  const ServicePracticeApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Problem 22 Flutter',
+      title: 'Flutter 22',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue
+          seedColor: Colors.blue,
         ),
       ),
-      home: const PostPage(),
+      home: const PostsPage(),
     );
   }
 }

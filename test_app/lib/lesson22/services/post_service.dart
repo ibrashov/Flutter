@@ -22,87 +22,69 @@ class PostService {
       throw Exception('Failed to load posts: ${response.statusCode}');
     }
   }
-
-  Future<Post> fetchPostById(int id) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/$id'),
-    );
-
-    if (response.statusCode == 200) {
+  Future <Post> fetchPostById(int id) async{
+    final response = await http.get(Uri.parse('$baseUrl/$id'),);
+    if(response.statusCode == 200){
       final Map<String, dynamic> data = jsonDecode(response.body);
-
       return Post.fromJson(data);
-    } else {
+    }else{
       throw Exception('Failed to load post: ${response.statusCode}');
     }
-  }
-
+  } 
   Future<Post> createPost({
     required String title,
     required String body,
     required int userId,
-  }) async {
+  })async{
     final response = await http.post(
       Uri.parse(baseUrl),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: {'Conten-type': 'application/json; charest=UTF-8'},
       body: jsonEncode({
         'title': title,
-        'body': body,
-        'userId': userId,
-      }),
+        'body':body,
+        'userId': userId
+      })
     );
-
-    if (response.statusCode == 201) {
+    if(response.statusCode == 201){
       final Map<String, dynamic> data = jsonDecode(response.body);
-
       return Post.fromJson(data);
-    } else {
+    }else{
       throw Exception('Failed to create post: ${response.statusCode}');
     }
   }
-
-  Future<Post> updatePost({
+  Future<Post> updatedPost({
     required int id,
     required String title,
     required String body,
-    required int userId,
-  }) async {
+    required int userId
+  })async{
     final response = await http.put(
       Uri.parse('$baseUrl/$id'),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
+      headers: {'Conten-Type':'application/json; charset=UTF-8'},
+      body:jsonEncode({
         'id': id,
         'title': title,
         'body': body,
-        'userId': userId,
+        'userId': userId
       }),
     );
-
-    if (response.statusCode == 200) {
+    if(response.statusCode == 200){
       final Map<String, dynamic> data = jsonDecode(response.body);
-
       return Post.fromJson(data);
-    } else {
+    }else{
       throw Exception('Failed to update post: ${response.statusCode}');
     }
   }
-
-  Future<void> deletePost(int id) async {
+  Future <void> deletedPost(int id) async{
     final response = await http.delete(
       Uri.parse('$baseUrl/$id'),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: {'Content-type':'application/json; charest=UTF-8'},
     );
-
-    if (response.statusCode == 200 || response.statusCode == 204) {
+    if(response.statusCode == 200 || response.statusCode==204){
       return;
-    } else {
+    }else{
       throw Exception('Failed to delete post: ${response.statusCode}');
     }
   }
+  
 }
