@@ -91,7 +91,7 @@ class _PostsPageState extends State<PostsPage> {
     });
 
     try {
-      await postService.deletedPost(post.id);
+      await postService.deletPosts(post.id);
 
       setState(() {
         posts.removeAt(index);
