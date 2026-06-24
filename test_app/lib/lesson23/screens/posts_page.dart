@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/post.dart';
-import '../services/post_service.dart';
+import '../repo/post_repository.dart';
+import '../services/post_services.dart';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key});
@@ -13,14 +14,25 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
-  final PostService postService = PostService();
+  late final PostRepository postRepository;
 
   final titleController = TextEditingController();
   final bodyController = TextEditingController();
 
   List<Post> posts = [];
   bool isLoading = false;
-  String message = 'Press refresh to load posts';
+  String message = 'Loading posts...';
+
+  @override
+  void initState() {
+    super.initState();
+
+    postRepository = PostRepository(
+      postService: PostService(),
+    );
+
+    loadPosts();
+  }
 
   Future<void> loadPosts() async {
     setState(() {
@@ -29,7 +41,7 @@ class _PostsPageState extends State<PostsPage> {
     });
 
     try {
-      final loadedPosts = await postService.fetchPosts();
+      final loadedPosts = await postRepository.getPosts();
 
       setState(() {
         posts = loadedPosts;
@@ -44,16 +56,9 @@ class _PostsPageState extends State<PostsPage> {
     }
   }
 
-  Future<void> addPost() async {
-    final title = titleController.text.trim();
-    final body = bodyController.text.trim();
-
-    if (title.isEmpty || body.isEmpty) {
-      setState(() {
-        message = 'Please enter title and body';
-      });
-      return;
-    }
+  Future<void> createPost() async {
+    final title = titleController.text;
+    final body = bodyController.text;
 
     setState(() {
       isLoading = true;
@@ -61,17 +66,16 @@ class _PostsPageState extends State<PostsPage> {
     });
 
     try {
-      final newPost = await postService.createPost(
+      final newPost = await postRepository.addPost(
         title: title,
         body: body,
-        userId: 1,
       );
 
       setState(() {
         posts.insert(0, newPost);
         titleController.clear();
         bodyController.clear();
-        message = 'Post created: ${newPost.title}';
+        message = 'Post created';
         isLoading = false;
       });
     } catch (e) {
@@ -82,7 +86,7 @@ class _PostsPageState extends State<PostsPage> {
     }
   }
 
-  Future<void> removePost(int index) async {
+  Future<void> deletePost(int index) async {
     final post = posts[index];
 
     setState(() {
@@ -91,7 +95,7 @@ class _PostsPageState extends State<PostsPage> {
     });
 
     try {
-      await postService.deletedPost(post.id);
+      await postRepository.removePost(post.id);
 
       setState(() {
         posts.removeAt(index);
@@ -104,12 +108,6 @@ class _PostsPageState extends State<PostsPage> {
         isLoading = false;
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadPosts();
   }
 
   @override
@@ -150,7 +148,7 @@ class _PostsPageState extends State<PostsPage> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: isLoading ? null : addPost,
+            onPressed: isLoading ? null : createPost,
             child: const Text('Create Post'),
           ),
         ),
@@ -158,7 +156,7 @@ class _PostsPageState extends State<PostsPage> {
     );
   }
 
-  Widget buildPostsList() {
+  Widget buildPostList() {
     if (posts.isEmpty) {
       return const Center(
         child: Text(
@@ -191,7 +189,7 @@ class _PostsPageState extends State<PostsPage> {
               onPressed: isLoading
                   ? null
                   : () {
-                      removePost(index);
+                      deletePost(index);
                     },
             ),
           ),
@@ -228,7 +226,7 @@ class _PostsPageState extends State<PostsPage> {
         const SizedBox(height: 10),
 
         Expanded(
-          child: buildPostsList(),
+          child: buildPostList(),
         ),
       ],
     );
@@ -238,7 +236,7 @@ class _PostsPageState extends State<PostsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter 22: API Service'),
+        title: const Text('Flutter 23: Repository Pattern'),
         actions: [
           IconButton(
             onPressed: isLoading ? null : loadPosts,

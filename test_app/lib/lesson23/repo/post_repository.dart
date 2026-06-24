@@ -1,5 +1,5 @@
 import '../models/post.dart';
-import '../services/post_service.dart';
+import '../services/post_services.dart';
 
 class PostRepository {
   final PostService postService;
