@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/counter_provider.dart';
+import 'providers/count_provider.dart';
 import 'providers/theme_provider.dart';
 import 'screens/home_page.dart';
 
