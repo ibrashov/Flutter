@@ -17,7 +17,7 @@ class Post{
       userId: json['userId'] ?? 0
     );
   } 
-  Map<String, dynamic> toJson{
+  Map<String, dynamic> toJson(){
     return{
       'id' : id,
       'title' : title,

@@ -121,7 +121,7 @@ class _PostsPageState extends State<PostsPage> {
               onPressed: provider.isLoading
                   ? null
                   : () {
-                      context.read<PostProvider>().deletePost(index);
+                      context.read<PostProvider>().deletedPost(index);
                     },
             ),
           ),

@@ -11,7 +11,7 @@ void main() {
     ChangeNotifierProvider(
       create: (context) {
         return PostProvider(
-          postRepository: PostRepo(
+          postRepo: PostRepo(
             postService: PostService(),
           ),
         );

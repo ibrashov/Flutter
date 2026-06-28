@@ -1,20 +1,18 @@
 import '../models/post.dart';
 import '../services/post_service.dart';
-
-class PostRepo{
+class PostRepo {
   final PostService postService;
-  const PostRepo({required this.postService});
-  Future <List<Post>> getPost() async{
-    final post = await postService.fetchPosts();
-    return post.where((post){
+  PostRepo({required this.postService});
+  Future<List<Post>> getPosts() async{
+    final posts = await postService.fetchPosts();
+    return posts.where((post){
       return post.title.isNotEmpty && post.body.isNotEmpty;
     }).toList();
   }
-
-  Future <Post> addPost({
+  Future<Post> addPost({
     required String title,
     required String body
-  }) async {
+  })async {
     final cleanTitle = title.trim();
     final cleanBody = body.trim();
     if(cleanTitle.isEmpty){
@@ -24,8 +22,9 @@ class PostRepo{
       throw Exception('Body cannot be empty');
     }
     return postService.createPost(title: cleanTitle, body: cleanBody, userId: 1);
+
   }
-  Future <void> removePost(int id)async{
+  Future<void> removePost(int id) async{
     await postService.deletePost(id);
   }
 }
