@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
-
 class CounterProvider extends ChangeNotifier {
-  int _counter = 0;
-
-  int get counter {
+  int _counter =0;
+  int get counter{
     return _counter;
   }
-
-  void increase() {
+  void increase(){
     _counter++;
     notifyListeners();
   }
-
-  void decrease() {
+  void decrease(){
     _counter--;
     notifyListeners();
   }
-
-  void reset() {
+  void reset(){
     _counter = 0;
     notifyListeners();
   }
-
-  void addFive() {
-    _counter = _counter + 5;
+  void addFive(){
+    _counter +=5;
     notifyListeners();
   }
 }

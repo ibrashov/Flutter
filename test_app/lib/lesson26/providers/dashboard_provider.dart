@@ -31,9 +31,9 @@ class DashboardProvider extends ChangeNotifier {
     }
     _username = cleanName;
     notifyListeners();
-    void togglePremium(bool value){
+  }
+  void togglePremium(bool value){
       _isPremium = value;
       notifyListeners();
     }
-  }
 }
