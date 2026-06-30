@@ -51,11 +51,11 @@ class FutureBuilderPr extends StatelessWidget{
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const PostsPage();
+      home: const PostsPage()
     );
   }
 }
-class PostsPage extends StatefulBuilder{
+class PostsPage extends StatefulWidget{
   const PostsPage({super.key});
   State<PostsPage> createState(){
     return _PostPageState();
@@ -78,7 +78,7 @@ class _PostPageState extends State<PostsPage>{
     Navigator.push(
       context, 
       MaterialPageRoute(builder: (context){
-        return PostDetailsPage(postId, postId);
+        return PostDetailsPage(postId: postId);
       }),
     );
   }
@@ -105,7 +105,98 @@ class _PostPageState extends State<PostsPage>{
   Widget buildPostsList(List<Post> posts){
     return ListView.builder(
       padding: const EdgeInsets.all(20),
-      itemCount: ,
+      itemCount: posts.length,
+      itemBuilder: (context, index){
+        final post = posts[index];
+        return Card(
+          margin: const EdgeInsets.only(bottom: 20),
+          child: ListTile(
+            leading: CircleAvatar(child: Text('${post.id}')),
+            title: Text(post.title, style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text(post.body, style: TextStyle(fontWeight: FontWeight.bold)),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: (){openPostDetails(context, post.id);},
+            ),
+
+        );
+      },
+    );
+  }
+  Widget buildPostFuture(){
+    return FutureBuilder<List<Post>>(
+      future: postsFuture,
+      builder: (context, snapshot){
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return buildLoading();
+        }
+        if(snapshot.hasError){
+          return buildError(snapshot.error!);
+        }
+        if(!snapshot.hasData || snapshot.data!.isEmpty){
+          return buildEmpty();
+        }
+        final posts = snapshot.data!;
+        return buildPostsList(posts);
+
+      }
+    );
+  }
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Problem 27: FutureBuilder'),
+        actions: [
+          IconButton(onPressed: refreshPosts, icon: const Icon(Icons.refresh))
+        ],
+      ),
+      body: buildPostFuture()
+    );
+  }
+}
+class PostDetailsPage extends StatelessWidget{
+  final int postId;
+  const PostDetailsPage({super.key, required this.postId});
+  Widget build(BuildContext context){
+    final PostService postService = PostService();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Post Details')),
+      body: FutureBuilder<Post>(
+        future: postService.fetchPostById(postId),
+        builder: (context, snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return const Center(child: CircularProgressIndicator());
+          }
+          if(snapshot.hasError){
+            return Center(
+              child: Padding(
+                padding: const EdgeInsetsGeometry.all(20),
+                child: Text(
+                  'Error: ${snapshot.error}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 20)
+                ),
+              ),
+            );
+          }
+          if(!snapshot.hasData){
+            return const Center(child: Text('No post found', style: TextStyle(fontSize: 20)));
+          }
+          final post = snapshot.data!;
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(radius: 25, child: Text('${post.id}')),
+                const SizedBox(height: 20),
+                Text(post.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+                Text(post.body, style: const TextStyle(fontSize: 20))
+              ]
+            ),
+          );
+        }
+      ),
     );
   }
 }
