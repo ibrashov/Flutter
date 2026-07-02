@@ -81,6 +81,8 @@ class TasksPage extends StatefulWidget {
   }
 }
 
+
+dsds
 class _TasksPageState extends State<TasksPage> {
   final SharedPreferencesAsync prefs = SharedPreferencesAsync();
 
@@ -274,3 +276,179 @@ class _TasksPageState extends State<TasksPage> {
       ),
     );
   }
+
+  Widget buildStatsCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  const Icon(Icons.list),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${tasks.length}',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text('Total'),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: Column(
+                children: [
+                  const Icon(Icons.check_circle),
+                  const SizedBox(height: 6),
+                  Text(
+                    '$completedCount',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text('Done'),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: Column(
+                children: [
+                  const Icon(Icons.pending_actions),
+                  const SizedBox(height: 6),
+                  Text(
+                    '$notCompletedCount',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text('Pending'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildMessageCard() {
+    return Card(
+      child: ListTile(
+        leading: const Icon(Icons.info),
+        title: const Text('Status'),
+        subtitle: Text(message),
+      ),
+    );
+  }
+
+  Widget buildTaskCard(int index) {
+    final task = tasks[index];
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        leading: Checkbox(
+          value: task.isDone,
+          onChanged: (value) {
+            toggleTask(index);
+          },
+        ),
+        title: Text(
+          task.title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            decoration: task.isDone ? TextDecoration.lineThrough : null,
+          ),
+        ),
+        subtitle: Text(task.description),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            deleteTask(index);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildTasksList() {
+    if (tasks.isEmpty) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(24),
+          child: Center(
+            child: Text(
+              'No tasks yet',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ),
+      );
+    }
+
+
+    ds
+    return Column(
+      children: [
+        for (int i = 0; i < tasks.length; i++)
+          buildTaskCard(i),
+      ],
+    );
+  }
+
+  Widget buildBody() {
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        buildForm(),
+
+        const SizedBox(height: 12),
+
+        buildStatsCard(),
+
+        const SizedBox(height: 12),
+
+        buildMessageCard(),
+
+        const SizedBox(height: 12),
+
+        buildTasksList(),
+
+        const SizedBox(height: 12),
+
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: clearAllTasks,
+            icon: const Icon(Icons.delete_forever),
+            label: const Text('Clear All Tasks'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter 31: Local JSON'),
+      ),
+      body: buildBody(),
+    );
+  }
+}
