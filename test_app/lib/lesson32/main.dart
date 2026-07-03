@@ -220,4 +220,121 @@ class _TasksPageState extends State<TasksPage> {
     super.dispose();
   }
 
-  
+  Widget buildForm() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Text(
+              'Create Local Task',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(
+                labelText: 'Title',
+                hintText: 'Enter task title',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.title),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            TextField(
+              controller: descriptionController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                hintText: 'Enter task description',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.description),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: addTask,
+                icon: const Icon(Icons.add),
+                label: const Text('Add Task'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildStatsCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  const Icon(Icons.list),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${tasks.length}',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text('Total'),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: Column(
+                children: [
+                  const Icon(Icons.check_circle),
+                  const SizedBox(height: 6),
+                  Text(
+                    '$completedCount',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text('Done'),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: Column(
+                children: [
+                  const Icon(Icons.pending_actions),
+                  const SizedBox(height: 6),
+                  Text(
+                    '$notCompletedCount',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text('Pending'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+ 
